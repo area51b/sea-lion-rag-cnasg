@@ -29,14 +29,14 @@ class Custom_Query_Engine():
         """
         
         self.llm = Ollama(
-            model="yxchia/llama3-8b-cpt-sea-lionv2-instruct:Q4_K_M", 
+            model="llama3-8b-cpt-sea-lionv2-instruct", 
             base_url="http://localhost:11434",
             request_timeout=120.0
             )
 
         # self.embed_model = IpexLLMEmbedding(model_name="/llm-models/hf-models/bge-small-en-v1.5", trust_remote_code=True)
         self.embed_model = OllamaEmbedding(
-            model_name="paraphrase-multilingual",
+            model_name="paraphrase-multilingual-MiniLM-L12-v2",
             base_url="http://localhost:11434",
             ollama_additional_kwargs={"mirostat": 0},
             )
