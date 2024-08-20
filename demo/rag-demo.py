@@ -181,11 +181,11 @@ def toggle_knowledge_base(use_rag):
 with gr.Blocks(css=css) as demo:
     # gr.Markdown(
     # """
-    # # **Retrieval Augmented Generation with only CPU**
+    # <h1 style="text-align: center;">Retrieval Augmented Generation with only CPU 💻📑✨</h3>
     # """)
     gr.Markdown(
     """
-    <h1 style="text-align: center;">Retrieval Augmented Generation with only CPU 💻📑✨</h3>
+    <h1 style="text-align: center;">Retrieval Augmented Generation 💻📑✨</h3>
     """)
     with gr.Row(equal_height=True, elem_classes=["app-interface"]):
         with gr.Column(scale=4, elem_classes=["chat-interface"]):
