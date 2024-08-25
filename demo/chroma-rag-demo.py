@@ -7,6 +7,11 @@ from llama_index.embeddings.ollama import OllamaEmbedding
 from llama_index.llms.ollama import Ollama
 from llama_index.readers.web import SimpleWebPageReader
 from llama_index.readers.web import BeautifulSoupWebReader
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 from llama_index.vector_stores.chroma import ChromaVectorStore
 import chromadb
 import time
@@ -21,8 +26,6 @@ import glob
 os.environ['GRADIO_TEMP_DIR'] = "/tmp/gradio"
 
 RAG_UPLOAD_FOLDER = "/demo/rag-documents/"
-
-
 
 
 class Custom_Query_Engine():
@@ -156,7 +159,16 @@ def stream_response(message, history):
     print(f"current RAG toggle is {query_engine.get_rag_toggle()}")
     if query_engine.get_rag_toggle():
         print('using RAG')
+        start_time = time.time()
+        print(f"Start time: {start_time}")
+        print(f"Message: {message}")
         response = query_engine.query(message)
+
+        end_time = time.time()
+        print(f"End time: {end_time}")
+        elapsed_time = end_time - start_time
+        print(f"Elapsed time: {elapsed_time}")
+        
         res = ""
         for token in response.response_gen:
             # print(token, end="")
