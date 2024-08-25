@@ -166,8 +166,8 @@ def stream_response(message, history):
 
         end_time = time.time()
         print(f"End time: {end_time}")
-        elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time}")
+        elapsed_time = (end_time - start_time) * 1000
+        print(f"Elapsed time: {elapsed_time} milliseconds")
         
         res = ""
         for token in response.response_gen:
