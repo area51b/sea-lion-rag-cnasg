@@ -101,7 +101,6 @@ class Custom_Query_Engine():
         #print(f"Embedding size: {embedding_size}")
 
     def calculate_size(self, doc):
-        total_size = 0
 
         # Calculate the size of the embedding vector
         embedding = doc.get('embeddings')
@@ -124,19 +123,15 @@ class Custom_Query_Engine():
         else:
             metadata_size = 0
 
-        # Calculate total size for this document
         doc_total_size = embedding_size + document_size + metadata_size
-        total_size += doc_total_size
 
         # Print sizes for debugging
         print(f"Embedding size: {embedding_size} bytes")
         print(f"Document text size: {document_size} bytes")
         print(f"Metadata size: {metadata_size} bytes")
-        print(f"Total size for this document: {doc_total_size} bytes")
-        print("\n")
+        print(f"Total size all documents: {doc_total_size} bytes")
 
-        print(f"Total size of all documents: {total_size} bytes")
-        return total_size
+        return doc_total_size
 
 
     def toggle_rag(self, toggle):
@@ -237,7 +232,10 @@ class Custom_Query_Engine():
         end_time = time.time()
         elapsed_time = end_time - start_time
 
-        print(f"Response: {retrieval_results}")
+        retrieval_size = len(str(retrieval_results).encode('utf-8'))
+
+        #print(f"ChromaDB response: {retrieval_results}")
+        print(f"ChromaDB response size: {retrieval_size} bytes")
         print(f"ChromaDB query time: {elapsed_time * 1000} milliseconds")
 
         return retrieval_results
@@ -319,7 +317,7 @@ def stream_response(message, history):
         print('using RAG')
 
         # Now query only the ChromaDB to check time
-        self.query_chromadb(message)
+        query_engine.query_chromadb(message)
 
         start_time = time.time()
         print(f"Start time: {start_time}")
@@ -332,7 +330,7 @@ def stream_response(message, history):
         print(f"Elapsed time: {elapsed_time} milliseconds")
 
         context = " ".join([node.dict()['node']['text'] for node in response.source_nodes])
-        #print(context)
+        #print(f"Context sent to LLM: {context} ")
         
         res = ""
         for token in response.response_gen:
