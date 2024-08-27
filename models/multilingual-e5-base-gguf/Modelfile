@@ -1,4 +1,4 @@
-FROM multilingual-e5-large-F16.gguf
+FROM multilingual-e5-base-Q8_0.gguf
 TEMPLATE {{ .Prompt }}
 LICENSE """
                                  Apache License
