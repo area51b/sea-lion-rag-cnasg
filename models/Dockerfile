@@ -5,4 +5,4 @@ RUN chmod +x /root/models/build-ollama.sh
 RUN /root/models/build-ollama.sh
 EXPOSE 11434
 ENTRYPOINT [ "/bin/bash" ]
-CMD ["-c", "ollama serve & sleep 5 && ollama run llama3-8b-cpt-sea-lionv2-instruct"]
+CMD ["-c", "ollama serve & sleep 5 && ollama run llama3-8b-cpt-sea-lionv2.1-instruct"]

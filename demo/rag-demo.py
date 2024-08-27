@@ -29,15 +29,15 @@ class Custom_Query_Engine():
         """
         
         self.llm = Ollama(
-            model="llama3-8b-cpt-sea-lionv2-instruct", 
-            base_url="http://localhost:11434",
+            model=f"{os.environ['LLM_MODEL_NAME']}", 
+            base_url=f"{os.environ['LLM_MODEL_ENDPOINT']}",
             request_timeout=120.0
             )
 
         # self.embed_model = IpexLLMEmbedding(model_name="/llm-models/hf-models/bge-small-en-v1.5", trust_remote_code=True)
         self.embed_model = OllamaEmbedding(
-            model_name="paraphrase-multilingual-MiniLM-L12-v2",
-            base_url="http://localhost:11434",
+            model_name=f"{os.environ['EMBED_MODEL_NAME']}",
+            base_url=f"{os.environ['EMBED_MODEL_ENDPOINT']}",
             ollama_additional_kwargs={"mirostat": 0},
             )
             
