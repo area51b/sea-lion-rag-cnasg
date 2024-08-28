@@ -1,4 +1,4 @@
-FROM ./paraphrase-multilingual-minilm-l12-v2.Q4_K_M.gguf
+FROM multilingual-e5-large-F16.gguf
 TEMPLATE {{ .Prompt }}
 LICENSE """
                                  Apache License

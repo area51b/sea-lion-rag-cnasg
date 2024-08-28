@@ -25,7 +25,8 @@ class Custom_Query_Engine():
     def __init__(self):
         self.SYSTEM_PROMPT = """You are an AI assistant that answers questions in a friendly manner. Here are some rules you always follow:
         - Generate human readable output, avoid creating output with gibberish text.
-        - Generate only the requested output, don't include any other language before or after the requested output.
+        - Don't include any other language before or after the requested output.
+        - Make use of the additional context given to provide better answers.
         """
         
         self.llm = Ollama(
@@ -46,7 +47,7 @@ class Custom_Query_Engine():
 
         self.documents = SimpleDirectoryReader("./data/").load_data()
         self.index = VectorStoreIndex.from_documents(self.documents, show_progress=True)
-        self.query_engine = self.index.as_query_engine(streaming=True, similarity_top_k=2)
+        self.query_engine = self.index.as_query_engine(streaming=True, similarity_top_k=3)
         self.use_rag = False
 
     def toggle_rag(self, toggle):
@@ -61,7 +62,7 @@ class Custom_Query_Engine():
         del self.index
         self.documents = SimpleDirectoryReader(RAG_UPLOAD_FOLDER).load_data()
         self.index = VectorStoreIndex.from_documents(self.documents, show_progress=True)
-        self.query_engine = self.index.as_query_engine(streaming=True, similarity_top_k=2)
+        self.query_engine = self.index.as_query_engine(streaming=True, similarity_top_k=3)
 
     def query(self, message):
         return self.query_engine.query(message)
@@ -139,6 +140,7 @@ def stream_response(message, history):
     if query_engine.get_rag_toggle():
         print('using RAG')
         response = query_engine.query(message)
+        print(response.source_nodes[0].get_content())
         res = ""
         for token in response.response_gen:
             # print(token, end="")
@@ -185,7 +187,7 @@ with gr.Blocks(css=css) as demo:
     # """)
     gr.Markdown(
     """
-    <h1 style="text-align: center;">Retrieval Augmented Generation 💻📑✨</h3>
+    <h1 style="text-align: center;">Retrieval Augmented Generation Chatbot 💻📑✨</h3>
     """)
     with gr.Row(equal_height=True, elem_classes=["app-interface"]):
         with gr.Column(scale=4, elem_classes=["chat-interface"]):
